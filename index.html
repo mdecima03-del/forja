@@ -287,6 +287,53 @@ body{max-width:430px;margin:0 auto;padding-bottom:var(--tab-h)}
 .pick-dot{width:8px;height:8px;border-radius:50%;background:var(--or);flex-shrink:0}
 .pick-name{font-size:13px;font-weight:600;flex:1}
 .pick-type{font-size:11px;color:var(--muted2)}
+
+/* ══ WIZARD ══ */
+.wizard-overlay{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;overflow:hidden}
+.wizard-top{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.wizard-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;flex:1}
+.wizard-step-ind{font-size:11px;color:var(--muted2);font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px}
+.wizard-progress{height:3px;background:var(--border);flex-shrink:0}
+.wizard-progress-bar{height:100%;background:var(--or);transition:width .4s ease}
+.wizard-body{flex:1;overflow-y:auto;padding:16px}
+.wizard-footer{background:var(--bg2);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;flex-shrink:0}
+.wizard-footer .btn{flex:1;justify-content:center;padding:13px}
+/* Step 1 - name */
+.wiz-name-in{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:16px;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:1px;outline:none}
+.wiz-name-in:focus{border-color:var(--or)}
+/* Step 2 - days */
+.day-tabs-wrap{display:flex;flex-direction:column;gap:10px}
+.day-tab-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .15s}
+.day-tab-item.selected{border-color:var(--or);background:rgba(255,107,0,.06)}
+.day-tab-num{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--or);width:44px;text-align:center;flex-shrink:0}
+.day-tab-info{flex:1}
+.day-tab-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;margin-bottom:2px}
+.day-tab-name-in{width:100%;background:var(--bg4);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;color:var(--text);font-size:14px;font-family:'Barlow',sans-serif;outline:none;margin-top:4px}
+.day-tab-name-in:focus{border-color:var(--or)}
+.day-edit-btn{color:var(--muted2);background:none;border:none;cursor:pointer;padding:6px;border-radius:7px}
+.day-edit-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.add-day-btn{width:100%;border:1px dashed var(--border2);border-radius:12px;padding:14px;background:none;color:var(--muted2);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.add-day-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.add-day-btn:active{border-color:var(--or);color:var(--or)}
+/* Step 3 - exercise picker */
+.group-filter-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;flex-shrink:0}
+.group-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;color:var(--muted2);cursor:pointer;white-space:nowrap;flex-shrink:0}
+.group-chip.active{background:var(--or);color:#000;border-color:var(--or)}
+.ex-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex-pick-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;position:relative;transition:border-color .15s,transform .1s}
+.ex-pick-card.selected{border-color:var(--or);transform:scale(.97)}
+.ex-pick-card.selected::after{content:'✓';position:absolute;top:7px;right:7px;width:22px;height:22px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;line-height:22px;text-align:center}
+.ex-pick-img{width:100%;height:100px;object-fit:cover;background:var(--bg4);display:block}
+.ex-pick-img-placeholder{width:100%;height:100px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:32px}
+.ex-pick-body{padding:8px}
+.ex-pick-name{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:3px}
+.ex-pick-type{font-size:10px;color:var(--muted2)}
+.ex-pick-selected-bar{background:rgba(255,107,0,.1);border:1px solid rgba(255,107,0,.3);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:var(--or);font-weight:600}
+.day-selector-bar{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+.day-sel-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;font-family:'Barlow Condensed',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;color:var(--muted2)}
+.day-sel-chip.active{background:var(--or);color:#000;border-color:var(--or)}
+.custom-ex-form{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px}
+.custom-ex-title{font-size:12px;font-weight:700;color:var(--muted2);letter-spacing:.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -545,6 +592,24 @@ body{max-width:430px;margin:0 auto;padding-bottom:var(--tab-h)}
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       PANEL
     </button>
+  </div>
+
+  <!-- WIZARD DE RUTINA -->
+  <div class="wizard-overlay" id="routineWizard" style="display:none">
+    <div class="wizard-top">
+      <button class="back-btn" onclick="wizardBack()">
+        <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+        ATRÁS
+      </button>
+      <div class="wizard-title" id="wizTitle">Nueva Rutina</div>
+      <div class="wizard-step-ind" id="wizStepInd">1/3</div>
+    </div>
+    <div class="wizard-progress"><div class="wizard-progress-bar" id="wizProgress" style="width:33%"></div></div>
+    <div class="wizard-body" id="wizBody"></div>
+    <div class="wizard-footer">
+      <button class="btn btn-ghost" onclick="wizardClose()" id="wizCancelBtn">CANCELAR</button>
+      <button class="btn btn-or" onclick="wizardNext()" id="wizNextBtn">SIGUIENTE</button>
+    </div>
   </div>
 </div>
 
@@ -1010,6 +1075,8 @@ function addExToSession(exId){
   sessionExercicios.push(ex);sessionSets[ex.id]=[{kg:'',reps:'',fallo:false}];
   closeModal();renderSessionEx();
 }
+// openRoutineModal now delegates to wizard
+function openRoutineModal(id){openRoutineWizard(id);}
 window.openRoutineModal=openRoutineModal;window.saveRoutine=saveRoutine;window.deleteRoutine=deleteRoutine;window.editRoutine=editRoutine;
 window.openExModal=openExModal;window.saveExercise=saveExercise;window.deleteExercise=deleteExercise;
 window.openAddExModal=openAddExModal;window.addExToSession=addExToSession;
@@ -1180,6 +1247,312 @@ function renderDashboard(){
   grid+='</div>';
   document.getElementById('consistGrid').innerHTML=grid;
 }
+
+// ══ EXERCISE DATABASE ══
+const EX_DB = {
+  "Pecho":[
+    {n:"Press Plano con Barra",t:"Barra",gif:"https://v2.exercisedb.io/image/9-PaQlAlrN3M8B",e:"🏋️"},
+    {n:"Press Inclinado con Mancuernas",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/Q9P-3C8l9sTUW3",e:"💪"},
+    {n:"Aperturas con Mancuernas",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/NxiHxKRDl5SVBQ",e:"🤸"},
+    {n:"Press Declinado",t:"Barra",gif:"https://v2.exercisedb.io/image/zGMEjnDUl1JSCS",e:"📐"},
+    {n:"Cruce de Poleas",t:"Polea",gif:"https://v2.exercisedb.io/image/x5-fCHxp5XQCYG",e:"✂️"},
+    {n:"Fondos en Paralelas",t:"Peso corporal",gif:"",e:"⬇️"},
+  ],
+  "Espalda":[
+    {n:"Jalón al Pecho",t:"Polea",gif:"https://v2.exercisedb.io/image/9VVMeAQxJHjt98",e:"⬆️"},
+    {n:"Remo con Barra",t:"Barra",gif:"https://v2.exercisedb.io/image/gIAOBwBxPWZa4y",e:"🚣"},
+    {n:"Dominadas",t:"Peso corporal",gif:"https://v2.exercisedb.io/image/E-kVTwMb1KHfWC",e:"🧗"},
+    {n:"Remo con Mancuerna",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/q8K5g38MlVKlO1",e:"💪"},
+    {n:"Peso Muerto",t:"Barra",gif:"https://v2.exercisedb.io/image/8c5E2HbIXPKuPH",e:"⚓"},
+    {n:"Remo en Polea Baja",t:"Polea",gif:"",e:"🔗"},
+  ],
+  "Hombros":[
+    {n:"Press Militar con Barra",t:"Barra",gif:"https://v2.exercisedb.io/image/zBM3VaFO7P3pPg",e:"🏋️"},
+    {n:"Press con Mancuernas",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/3KZWG0ZzYAHcKT",e:"💪"},
+    {n:"Elevaciones Laterales",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/0mRKO6PRXQYJ9y",e:"🦅"},
+    {n:"Elevaciones Frontales",t:"Mancuerna",gif:"",e:"⬆️"},
+    {n:"Pájaros",t:"Mancuerna",gif:"",e:"🐦"},
+  ],
+  "Bíceps":[
+    {n:"Curl con Barra",t:"Barra",gif:"https://v2.exercisedb.io/image/KtHGM8U8l4zBGK",e:"💪"},
+    {n:"Curl Martillo",t:"Mancuerna",gif:"https://v2.exercisedb.io/image/WoIEBQFnmSPfmH",e:"🔨"},
+    {n:"Curl en Banco Predicador",t:"Máquina",gif:"",e:"📖"},
+    {n:"Curl Concentrado",t:"Mancuerna",gif:"",e:"🎯"},
+    {n:"Curl en Polea",t:"Polea",gif:"",e:"🔗"},
+  ],
+  "Tríceps":[
+    {n:"Press Francés",t:"Barra",gif:"https://v2.exercisedb.io/image/Ul7bVEY5csFgXi",e:"🥖"},
+    {n:"Extensión en Polea",t:"Polea",gif:"https://v2.exercisedb.io/image/zGMEjnDUl1JSCS",e:"⬇️"},
+    {n:"Fondos en Banco",t:"Peso corporal",gif:"",e:"🪑"},
+    {n:"Patada de Tríceps",t:"Mancuerna",gif:"",e:"🦵"},
+    {n:"Extensión Overhead",t:"Polea",gif:"",e:"☝️"},
+  ],
+  "Piernas":[
+    {n:"Sentadilla con Barra",t:"Barra",gif:"https://v2.exercisedb.io/image/9-PaQlAlrN3M8B",e:"🏋️"},
+    {n:"Prensa de Piernas",t:"Máquina",gif:"https://v2.exercisedb.io/image/zBM3VaFO7P3pPg",e:"🦵"},
+    {n:"Extensión de Cuádriceps",t:"Máquina",gif:"",e:"📐"},
+    {n:"Curl de Isquiotibiales",t:"Máquina",gif:"",e:"🌀"},
+    {n:"Peso Muerto Rumano",t:"Barra",gif:"",e:"⚓"},
+    {n:"Abductores en Máquina",t:"Máquina",gif:"",e:"↔️"},
+    {n:"Pantorrillas de Pie",t:"Máquina",gif:"",e:"🦶"},
+  ],
+  "Abdomen":[
+    {n:"Crunch",t:"Peso corporal",gif:"",e:"〰️"},
+    {n:"Plancha",t:"Peso corporal",gif:"",e:"🪵"},
+    {n:"Elevación de Piernas",t:"Peso corporal",gif:"",e:"⬆️"},
+    {n:"Crunch en Polea",t:"Polea",gif:"",e:"🔗"},
+    {n:"Russian Twist",t:"Peso corporal",gif:"",e:"🌀"},
+  ],
+  "Glúteos":[
+    {n:"Hip Thrust con Barra",t:"Barra",gif:"",e:"🍑"},
+    {n:"Sentadilla Sumo",t:"Barra",gif:"",e:"🏋️"},
+    {n:"Patada de Glúteo en Polea",t:"Polea",gif:"",e:"🦵"},
+    {n:"Abductores en Máquina",t:"Máquina",gif:"",e:"↔️"},
+  ],
+};
+const GROUPS = Object.keys(EX_DB);
+const GROUP_COLORS = {
+  "Pecho":"#ef4444","Espalda":"#3b82f6","Hombros":"#8b5cf6",
+  "Bíceps":"#f59e0b","Tríceps":"#10b981","Piernas":"#f97316",
+  "Abdomen":"#06b6d4","Glúteos":"#ec4899"
+};
+
+// ══ WIZARD STATE ══
+let wiz = {step:1, name:'', days:[], currentDay:0, selectedGroup:'Pecho'};
+
+function openRoutineWizard(editId){
+  wiz = {step:1, name:'', days:[
+    {nombre:'Día 1', ejercicios:[]},
+    {nombre:'Día 2', ejercicios:[]},
+    {nombre:'Día 3', ejercicios:[]},
+  ], currentDay:0, selectedGroup:'Pecho', editId:editId||null};
+  if(editId){
+    const r=allRutinas.find(x=>x.id===editId);
+    if(r){
+      wiz.name=r.nombre;
+      // rebuild days from ejercicioIds
+      const exs=(r.ejercicioIds||[]).map(id=>allEjercicios.find(e=>e.id===id)).filter(Boolean);
+      wiz.days=[{nombre:r.nombre,ejercicios:exs.map(e=>e.nombre)}];
+    }
+  }
+  document.getElementById('routineWizard').style.display='flex';
+  document.getElementById('mainTabs').style.display='none';
+  wizRender();
+}
+window.openRoutineWizard = openRoutineWizard;
+
+function wizardClose(){
+  document.getElementById('routineWizard').style.display='none';
+  document.getElementById('mainTabs').style.display='flex';
+}
+window.wizardClose = wizardClose;
+
+function wizardBack(){
+  if(wiz.step===1){wizardClose();return;}
+  if(wiz.step===3 && wiz.currentDay>0){wiz.currentDay--;wizRender();return;}
+  wiz.step--;wizRender();
+}
+window.wizardBack = wizardBack;
+
+function wizardNext(){
+  if(wiz.step===1){
+    const v=document.getElementById('wizNameIn')?.value.trim();
+    if(!v){alert('Ingresá un nombre para la rutina');return;}
+    wiz.name=v;wiz.step=2;wizRender();return;
+  }
+  if(wiz.step===2){
+    // Save day names from inputs
+    wiz.days.forEach((d,i)=>{
+      const inp=document.getElementById('dayNameIn-'+i);
+      if(inp)d.nombre=inp.value||d.nombre;
+    });
+    wiz.step=3;wiz.currentDay=0;wizRender();return;
+  }
+  if(wiz.step===3){
+    // Save custom exercise if any
+    saveCustomExIfFilled();
+    if(wiz.currentDay < wiz.days.length-1){
+      wiz.currentDay++;wizRender();return;
+    }
+    // Done - save routine
+    saveWizardRoutine();return;
+  }
+}
+window.wizardNext = wizardNext;
+
+function wizRender(){
+  const steps=['Nombre','Días','Ejercicios'];
+  const pct=Math.round((wiz.step/3)*100);
+  document.getElementById('wizProgress').style.width=pct+'%';
+  document.getElementById('wizStepInd').textContent=wiz.step+'/3';
+  document.getElementById('wizNextBtn').textContent=
+    wiz.step===3&&wiz.currentDay===wiz.days.length-1?'GUARDAR RUTINA':
+    wiz.step===3?'SIGUIENTE DÍA':'SIGUIENTE';
+
+  if(wiz.step===1) wizStep1();
+  if(wiz.step===2) wizStep2();
+  if(wiz.step===3) wizStep3();
+}
+
+function wizStep1(){
+  document.getElementById('wizTitle').textContent='Nueva Rutina';
+  document.getElementById('wizBody').innerHTML=`
+    <div style="margin-bottom:20px">
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:10px">Dale un nombre a tu rutina. Puede ser cualquier cosa que te identifique.</div>
+      <input class="wiz-name-in" id="wizNameIn" placeholder="Ej: Mi Rutina PPL" value="${wiz.name}" maxlength="40">
+      <div style="font-size:11px;color:var(--muted2);margin-top:8px">Ejemplos: Push/Pull/Legs · Rutina Fuerza · Full Body · Torso/Piernas</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${['Push/Pull/Legs','Torso-Piernas','Full Body','Personalizada'].map(t=>
+        `<button onclick="document.getElementById('wizNameIn').value='${t}'" style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:'Barlow',sans-serif">${t}</button>`
+      ).join('')}
+    </div>`;
+  setTimeout(()=>document.getElementById('wizNameIn')?.focus(),100);
+}
+
+function wizStep2(){
+  document.getElementById('wizTitle').textContent='Días de entrenamiento';
+  document.getElementById('wizBody').innerHTML=`
+    <div style="font-size:13px;color:var(--muted2);margin-bottom:14px">La rutina viene con 3 días. Podés agregar más o renombrarlos.</div>
+    <div class="day-tabs-wrap" id="dayTabsWrap">
+      ${wiz.days.map((d,i)=>`
+        <div class="day-tab-item">
+          <div class="day-tab-num">${i+1}</div>
+          <div class="day-tab-info">
+            <input class="day-tab-name-in" id="dayNameIn-${i}" value="${d.nombre}" placeholder="Nombre del día">
+          </div>
+          ${i>=3?`<button class="day-edit-btn" onclick="removeDay(${i})"><svg viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>`:''}
+        </div>`).join('')}
+    </div>
+    <button class="add-day-btn" onclick="addDay()" style="margin-top:10px">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      AGREGAR DÍA
+    </button>`;
+}
+
+function addDay(){
+  // Save current names
+  wiz.days.forEach((d,i)=>{const inp=document.getElementById('dayNameIn-'+i);if(inp)d.nombre=inp.value||d.nombre;});
+  wiz.days.push({nombre:'Día '+(wiz.days.length+1),ejercicios:[]});
+  wizStep2();
+}
+function removeDay(i){
+  wiz.days.forEach((d,j)=>{const inp=document.getElementById('dayNameIn-'+j);if(inp)d.nombre=inp.value||d.nombre;});
+  wiz.days.splice(i,1);wizStep2();
+}
+window.addDay=addDay;window.removeDay=removeDay;
+
+function wizStep3(){
+  const day=wiz.days[wiz.currentDay];
+  document.getElementById('wizTitle').textContent=day.nombre;
+  const selCount=day.ejercicios.length;
+
+  let html=`
+    <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px">
+      ${wiz.days.map((d,i)=>`<button class="day-sel-chip${i===wiz.currentDay?' active':''}" onclick="switchWizDay(${i})">${d.nombre.split(' ')[0]+' '+(i+1)}</button>`).join('')}
+    </div>
+    ${selCount>0?`<div class="ex-pick-selected-bar">✓ ${selCount} ejercicio${selCount!==1?'s':''} seleccionado${selCount!==1?'s':''} para ${day.nombre}</div>`:''}
+    <div class="group-filter-bar">
+      ${GROUPS.map(g=>`<button class="group-chip${g===wiz.selectedGroup?' active':''}" onclick="setWizGroup('${g}')">${g}</button>`).join('')}
+    </div>
+    <div class="ex-pick-grid">
+      ${(EX_DB[wiz.selectedGroup]||[]).map(ex=>{
+        const sel=day.ejercicios.includes(ex.n);
+        return `<div class="ex-pick-card${sel?' selected':''}" onclick="toggleWizEx('${ex.n.replace(/'/g,"\\'")}')">
+          ${ex.gif
+            ?`<img class="ex-pick-img" src="${ex.gif}" alt="${ex.n}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
+            :''}
+          <div class="ex-pick-img-placeholder"${ex.gif?' style="display:none"':''}>${ex.e||'💪'}</div>
+          <div class="ex-pick-body">
+            <div class="ex-pick-name">${ex.n}</div>
+            <div class="ex-pick-type">${ex.t}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="custom-ex-form">
+      <div class="custom-ex-title">+ Agregar ejercicio propio</div>
+      <input class="modal-in" id="customExName" placeholder="Nombre del ejercicio" style="margin-bottom:6px">
+      <select class="modal-sel" id="customExTipo" style="margin-bottom:0">
+        <option>Barra</option><option>Mancuerna</option><option>Máquina</option><option>Polea</option><option>Peso corporal</option><option>Otro</option>
+      </select>
+    </div>`;
+
+  document.getElementById('wizBody').innerHTML=html;
+}
+
+function switchWizDay(i){
+  saveCustomExIfFilled();
+  // Save current day names from step2 inputs if they exist
+  wiz.currentDay=i;wizStep3();
+}
+function setWizGroup(g){wiz.selectedGroup=g;wizStep3();}
+function toggleWizEx(name){
+  const day=wiz.days[wiz.currentDay];
+  const idx=day.ejercicios.indexOf(name);
+  if(idx>=0)day.ejercicios.splice(idx,1);else day.ejercicios.push(name);
+  wizStep3();
+}
+function saveCustomExIfFilled(){
+  const nameEl=document.getElementById('customExName');
+  const tipoEl=document.getElementById('customExTipo');
+  if(nameEl&&nameEl.value.trim()){
+    const n=nameEl.value.trim(),t=tipoEl?.value||'Otro';
+    const day=wiz.days[wiz.currentDay];
+    if(!day.ejercicios.includes(n))day.ejercicios.push(n);
+    // Also add to EX_DB and allEjercicios for future use
+    if(!EX_DB[wiz.selectedGroup])EX_DB[wiz.selectedGroup]=[];
+    if(!EX_DB[wiz.selectedGroup].find(e=>e.n===n))EX_DB[wiz.selectedGroup].push({n,t,gif:'',e:'💪'});
+    fsAdd('ejercicios',{nombre:n,tipo:t,musculo:wiz.selectedGroup}).then(id=>{
+      allEjercicios.push({id,nombre:n,tipo:t,musculo:wiz.selectedGroup});
+    }).catch(()=>{});
+  }
+}
+window.switchWizDay=switchWizDay;window.setWizGroup=setWizGroup;window.toggleWizEx=toggleWizEx;
+
+async function saveWizardRoutine(){
+  // Create one routine per day, OR one routine with all exercises
+  // Design decision: one routine total with days flattened (user selects which day to do)
+  // Better: save as multiple routines (one per day)
+  const results=[];
+  for(const day of wiz.days){
+    if(!day.ejercicios.length)continue;
+    // Find or create exercise IDs
+    const exIds=[];
+    for(const exName of day.ejercicios){
+      let ex=allEjercicios.find(e=>e.nombre===exName);
+      if(!ex){
+        // Find in EX_DB
+        let tipo='Libre',musculo='';
+        for(const [grp,exs] of Object.entries(EX_DB)){
+          const found=exs.find(e=>e.n===exName);
+          if(found){tipo=found.t;musculo=grp;break;}
+        }
+        try{const id=await fsAdd('ejercicios',{nombre:exName,tipo,musculo});ex={id,nombre:exName,tipo,musculo};allEjercicios.push(ex);}catch(e){ex={id:'tmp-'+Date.now(),nombre:exName};}
+      }
+      exIds.push(ex.id);
+    }
+    const rutName=wiz.days.length>1?wiz.name+' — '+day.nombre:wiz.name;
+    const data={nombre:rutName,emoji:'💪',ejercicioIds:exIds};
+    try{
+      const id=await fsAdd('rutinas',data);
+      allRutinas.push({id,...data});
+    }catch(e){allRutinas.push({id:'tmp-'+Date.now(),...data});}
+  }
+  wizardClose();
+  renderEntrenar();
+  // Show success
+  document.getElementById('modalContainer').innerHTML=`
+    <div class="overlay" onclick="this.remove()">
+      <div class="modal" style="text-align:center">
+        <div style="font-size:48px;margin-bottom:8px">✅</div>
+        <div class="modal-title" style="text-align:center">¡Rutina creada!</div>
+        <div style="font-size:13px;color:var(--muted2);margin-bottom:16px">Se creó una rutina por cada día con ejercicios.</div>
+        <button class="btn btn-or btn-full" onclick="document.getElementById('modalContainer').innerHTML=''">LISTO</button>
+      </div>
+    </div>`;
+}
+
 </script>
 </body>
 </html>
