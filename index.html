@@ -569,159 +569,194 @@ body{max-width:430px;margin:0 auto;padding-bottom:var(--tab-h)}
   <!-- PAGE: MI CUERPO -->
   <div id="pg-cuerpo" class="page">
     <div class="sec-hl" style="margin-bottom:4px">Mi Cuerpo</div>
-    <div style="font-size:12px;color:var(--muted2);margin-bottom:10px">Visualización de tu progreso físico en tiempo real.</div>
+    <div style="font-size:12px;color:var(--muted2);margin-bottom:12px">Silueta inteligente — tocá un músculo para ver detalles</div>
 
-    <!-- Mode selector -->
+    <!-- Mode tabs -->
     <div style="display:flex;gap:6px;margin-bottom:12px">
-      <button class="pchip active" id="bodyModeBtn1" onclick="setBodyMode('current',this)">ACTUAL</button>
-      <button class="pchip" id="bodyModeBtn2" onclick="setBodyMode('compare',this)">COMPARAR</button>
+      <button class="pchip active" onclick="setBodyMode('current',this)">ACTUAL</button>
+      <button class="pchip" onclick="setBodyMode('compare',this)">COMPARAR</button>
     </div>
 
-    <!-- Compare controls (hidden by default) -->
-    <div id="compareControls" style="display:none;margin-bottom:12px">
+    <!-- Compare controls -->
+    <div id="cmpCtrls" style="display:none;margin-bottom:12px">
       <div class="card" style="padding:10px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div>
-            <label class="med-lbl">Desde</label>
+          <div><label class="med-lbl">Período A</label>
             <select class="med-in" id="cmpFrom" style="font-size:13px">
-              <option value="0">Este mes</option>
-              <option value="1">Mes anterior</option>
-              <option value="2">Hace 2 meses</option>
-              <option value="3">Hace 3 meses</option>
-            </select>
-          </div>
-          <div>
-            <label class="med-lbl">Hasta</label>
+              <option value="0">Este mes</option><option value="1">Mes anterior</option>
+              <option value="2">Hace 2 meses</option><option value="3">Hace 3 meses</option>
+            </select></div>
+          <div><label class="med-lbl">Período B</label>
             <select class="med-in" id="cmpTo" style="font-size:13px">
-              <option value="0">Este mes</option>
-              <option value="1">Mes anterior</option>
-              <option value="2">Hace 2 meses</option>
-            </select>
-          </div>
+              <option value="1">Mes anterior</option><option value="2">Hace 2 meses</option>
+              <option value="3">Hace 3 meses</option>
+            </select></div>
         </div>
         <button class="btn btn-or btn-full" style="margin-top:8px;font-size:13px" onclick="renderBodyPage()">COMPARAR</button>
       </div>
     </div>
 
-    <!-- SVG Silhouette -->
-    <div class="card" style="padding:14px;text-align:center">
-      <div id="bodySvgWrap" style="position:relative;display:inline-block;max-width:240px;width:100%">
-        <svg id="bodySvg" viewBox="0 0 200 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
-          <defs>
-            <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <!-- Shadow -->
-          <ellipse cx="100" cy="435" rx="45" ry="6" fill="rgba(0,0,0,0.3)"/>
+    <!-- Body SVG + detail side by side on larger screens, stacked on mobile -->
+    <div class="card" style="padding:14px">
+      <!-- Legend -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span id="dot-prog" style="width:9px;height:9px;border-radius:50%;background:#22C55E;display:inline-block"></span>Progresando</span>
+        <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:50%;background:#FBBF24;display:inline-block"></span>Estable</span>
+        <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:50%;background:#EF4444;display:inline-block"></span>Estancado</span>
+        <span style="font-size:11px;display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:50%;background:#60A5FA;display:inline-block"></span>Poco trabajado</span>
+      </div>
 
-          <!-- LEGS -->
-          <!-- Left thigh -->
-          <path id="svgLeftThigh" class="svg-muscle" onclick="showMuscleDetail('Cuádriceps')"
-            d="M72,260 Q58,280 55,320 Q70,325 80,320 Q82,280 85,260 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Right thigh -->
-          <path id="svgRightThigh" class="svg-muscle" onclick="showMuscleDetail('Cuádriceps')"
-            d="M128,260 Q118,280 120,320 Q130,325 145,320 Q142,280 128,260 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Left calf -->
-          <path id="svgLeftCalf" class="svg-muscle" onclick="showMuscleDetail('Pantorrillas')"
-            d="M55,322 Q50,350 52,385 Q60,390 70,385 Q75,355 80,322 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Right calf -->
-          <path id="svgRightCalf" class="svg-muscle" onclick="showMuscleDetail('Pantorrillas')"
-            d="M120,322 Q125,355 130,385 Q140,390 148,385 Q150,350 145,322 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Feet -->
-          <ellipse cx="62" cy="410" rx="14" ry="8" fill="#161616" stroke="#333" stroke-width="1"/>
-          <ellipse cx="138" cy="410" rx="14" ry="8" fill="#161616" stroke="#333" stroke-width="1"/>
+      <!-- SVG Silhouette -->
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="flex-shrink:0;width:160px">
+          <svg id="bodySvg" viewBox="0 0 160 420" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+            <defs>
+              <radialGradient id="skinGrad" cx="50%" cy="40%" r="60%">
+                <stop offset="0%" stop-color="#2a2a2a"/>
+                <stop offset="100%" stop-color="#1a1a1a"/>
+              </radialGradient>
+            </defs>
 
-          <!-- GLUTES / HIPS -->
-          <path id="svgGlutes" class="svg-muscle" onclick="showMuscleDetail('Glúteos')"
-            d="M72,240 Q60,248 58,265 Q72,270 100,268 Q128,270 142,265 Q140,248 128,240 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
+            <!-- Shadow -->
+            <ellipse cx="80" cy="414" rx="36" ry="5" fill="#00000044"/>
 
-          <!-- TORSO -->
-          <!-- Abdomen / Core -->
-          <path id="svgCore" class="svg-muscle" onclick="showMuscleDetail('Core')"
-            d="M78,185 Q72,210 72,235 Q86,240 100,240 Q114,240 128,235 Q128,210 122,185 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Chest -->
-          <path id="svgChest" class="svg-muscle" onclick="showMuscleDetail('Pecho')"
-            d="M72,140 Q65,158 68,180 Q84,186 100,185 Q116,186 132,180 Q135,158 128,140 Q114,135 100,133 Q86,135 72,140 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
+            <!-- ── HEAD ── -->
+            <ellipse cx="80" cy="32" rx="22" ry="26" fill="#1e1e1e" stroke="#333" stroke-width="1.2"/>
+            <!-- eyes -->
+            <ellipse cx="73" cy="29" rx="4" ry="4.5" fill="#141414"/>
+            <ellipse cx="87" cy="29" rx="4" ry="4.5" fill="#141414"/>
+            <ellipse cx="73" cy="28" rx="2.5" ry="3" fill="#0a0a0a"/>
+            <ellipse cx="87" cy="28" rx="2.5" ry="3" fill="#0a0a0a"/>
+            <!-- mouth -->
+            <path d="M76,40 Q80,43 84,40" stroke="#333" stroke-width="1.2" fill="none" stroke-linecap="round"/>
 
-          <!-- ARMS -->
-          <!-- Left upper arm -->
-          <path id="svgLeftBicep" class="svg-muscle" onclick="showMuscleDetail('Bíceps')"
-            d="M62,138 Q50,145 46,170 Q54,178 62,175 Q68,155 70,138 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Right upper arm -->
-          <path id="svgRightBicep" class="svg-muscle" onclick="showMuscleDetail('Bíceps')"
-            d="M138,138 Q132,138 130,175 Q138,178 154,170 Q150,145 138,138 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <!-- Left forearm -->
-          <path d="M46,172 Q42,190 44,210 Q50,212 60,210 Q62,190 62,177 Z" fill="#161616" stroke="#2a2a2a" stroke-width="1"/>
-          <!-- Right forearm -->
-          <path d="M138,177 Q138,190 140,210 Q150,212 156,210 Q158,190 154,172 Z" fill="#161616" stroke="#2a2a2a" stroke-width="1"/>
-          <!-- Hands -->
-          <ellipse cx="50" cy="220" rx="9" ry="12" fill="#141414" stroke="#2a2a2a" stroke-width="1"/>
-          <ellipse cx="150" cy="220" rx="9" ry="12" fill="#141414" stroke="#2a2a2a" stroke-width="1"/>
+            <!-- ── NECK ── -->
+            <rect x="73" y="55" width="14" height="16" rx="5" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
 
-          <!-- SHOULDERS -->
-          <ellipse id="svgLeftShoulder" class="svg-muscle" onclick="showMuscleDetail('Hombros')"
-            cx="63" cy="133" rx="18" ry="14"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
-          <ellipse id="svgRightShoulder" class="svg-muscle" onclick="showMuscleDetail('Hombros')"
-            cx="137" cy="133" rx="18" ry="14"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
+            <!-- ── SHOULDERS (clickable) ── -->
+            <ellipse id="svgShoulderL" class="svg-muscle" data-muscle="Hombros"
+              cx="47" cy="77" rx="16" ry="13" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <ellipse id="svgShoulderR" class="svg-muscle" data-muscle="Hombros"
+              cx="113" cy="77" rx="16" ry="13" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
 
-          <!-- BACK / LATS (sides) -->
-          <path id="svgBack" class="svg-muscle" onclick="showMuscleDetail('Espalda')"
-            d="M68,138 Q58,155 60,185 Q72,188 72,180 Q68,160 72,140 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5" opacity="0.8"/>
-          <path class="svg-muscle" onclick="showMuscleDetail('Espalda')"
-            d="M132,138 Q128,140 128,180 Q128,188 140,185 Q142,155 132,138 Z"
-            fill="#1A1A1A" stroke="#333" stroke-width="1.5" opacity="0.8"/>
+            <!-- ── CHEST (clickable) ── -->
+            <path id="svgChestL" class="svg-muscle" data-muscle="Pecho"
+              d="M57,70 Q47,80 50,105 Q65,110 78,108 Q80,90 80,70 Q70,65 57,70Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <path id="svgChestR" class="svg-muscle" data-muscle="Pecho"
+              d="M103,70 Q113,80 110,105 Q95,110 82,108 Q80,90 80,70 Q90,65 103,70Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <!-- Chest split line -->
+            <line x1="80" y1="70" x2="80" y2="108" stroke="#111" stroke-width="1" opacity="0.6"/>
 
-          <!-- NECK -->
-          <rect x="90" y="72" width="20" height="26" rx="8" fill="#161616" stroke="#2a2a2a" stroke-width="1"/>
+            <!-- ── CORE / ABS (clickable) ── -->
+            <path id="svgCore" class="svg-muscle" data-muscle="Core"
+              d="M55,108 Q53,130 55,158 Q67,165 80,164 Q93,165 105,158 Q107,130 105,108 Q93,112 80,112 Q67,112 55,108Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <!-- Abs lines -->
+            <line x1="80" y1="112" x2="80" y2="164" stroke="#111" stroke-width="1" opacity="0.5"/>
+            <line x1="58" y1="126" x2="102" y2="126" stroke="#111" stroke-width="0.8" opacity="0.4"/>
+            <line x1="57" y1="140" x2="103" y2="140" stroke="#111" stroke-width="0.8" opacity="0.4"/>
 
-          <!-- HEAD -->
-          <ellipse cx="100" cy="55" rx="30" ry="38" fill="#1e1e1e" stroke="#333" stroke-width="1.5"/>
-          <!-- Face details -->
-          <ellipse cx="91" cy="50" rx="5" ry="6" fill="#141414"/>
-          <ellipse cx="109" cy="50" rx="5" ry="6" fill="#141414"/>
-          <ellipse cx="91" cy="49" rx="3" ry="3.5" fill="#0a0a0a"/>
-          <ellipse cx="109" cy="49" rx="3" ry="3.5" fill="#0a0a0a"/>
-          <path d="M94,64 Q100,68 106,64" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- ── LATS / BACK SIDES ── -->
+            <path id="svgBackL" class="svg-muscle" data-muscle="Espalda"
+              d="M50,80 Q40,95 42,130 Q50,135 56,130 Q54,105 55,80Z"
+              fill="#1a1a1a" stroke="#2e2e2e" stroke-width="1.2"/>
+            <path id="svgBackR" class="svg-muscle" data-muscle="Espalda"
+              d="M110,80 Q120,95 118,130 Q110,135 104,130 Q106,105 105,80Z"
+              fill="#1a1a1a" stroke="#2e2e2e" stroke-width="1.2"/>
 
-          <!-- MUSCLE STATUS INDICATORS (dots) -->
-          <g id="muscleIndicators"></g>
-        </svg>
+            <!-- ── BICEPS (clickable) ── -->
+            <path id="svgBicepL" class="svg-muscle" data-muscle="Bíceps"
+              d="M44,84 Q32,92 30,116 Q36,122 44,120 Q50,106 50,84Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <path id="svgBicepR" class="svg-muscle" data-muscle="Bíceps"
+              d="M116,84 Q128,92 130,116 Q124,122 116,120 Q110,106 110,84Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
 
-        <!-- Tap hint -->
-        <div style="font-size:10px;color:var(--muted);margin-top:6px;text-align:center">Tocá un músculo para ver detalles</div>
+            <!-- ── FOREARMS ── -->
+            <path d="M30,118 Q26,132 28,152 Q34,155 42,152 Q44,134 44,122Z"
+              fill="#161616" stroke="#2a2a2a" stroke-width="1"/>
+            <path d="M130,118 Q134,132 132,152 Q126,155 118,152 Q116,134 116,122Z"
+              fill="#161616" stroke="#2a2a2a" stroke-width="1"/>
+
+            <!-- HANDS -->
+            <ellipse cx="33" cy="163" rx="8" ry="11" fill="#141414" stroke="#222" stroke-width="1"/>
+            <ellipse cx="127" cy="163" rx="8" ry="11" fill="#141414" stroke="#222" stroke-width="1"/>
+
+            <!-- ── GLUTES / HIPS ── -->
+            <path id="svgGlutes" class="svg-muscle" data-muscle="Glúteos"
+              d="M55,158 Q46,168 47,188 Q60,196 80,194 Q100,196 113,188 Q114,168 105,158 Q93,164 80,164 Q67,164 55,158Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <!-- Hip split -->
+            <line x1="80" y1="164" x2="80" y2="194" stroke="#111" stroke-width="1" opacity="0.5"/>
+
+            <!-- ── QUADS (clickable) ── -->
+            <path id="svgQuadL" class="svg-muscle" data-muscle="Cuádriceps"
+              d="M47,190 Q38,210 38,248 Q50,255 60,250 Q64,225 64,190 Q56,188 47,190Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <path id="svgQuadR" class="svg-muscle" data-muscle="Cuádriceps"
+              d="M113,190 Q122,210 122,248 Q110,255 100,250 Q96,225 96,190 Q104,188 113,190Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <!-- Inner quad detail -->
+            <path d="M64,190 Q70,210 70,248 Q65,252 60,250 Q64,225 64,190Z"
+              fill="#161616" stroke="#111" stroke-width="0.8" opacity="0.6"/>
+            <path d="M96,190 Q90,210 90,248 Q95,252 100,250 Q96,225 96,190Z"
+              fill="#161616" stroke="#111" stroke-width="0.8" opacity="0.6"/>
+
+            <!-- ── HAMSTRINGS (behind) ── -->
+            <path id="svgHamL" class="svg-muscle" data-muscle="Isquiotibiales"
+              d="M47,190 Q42,208 43,246 Q51,253 60,250 Q60,225 58,190Z"
+              fill="#181818" stroke="#2a2a2a" stroke-width="1.2" opacity="0.7"/>
+            <path id="svgHamR" class="svg-muscle" data-muscle="Isquiotibiales"
+              d="M113,190 Q118,208 117,246 Q109,253 100,250 Q100,225 102,190Z"
+              fill="#181818" stroke="#2a2a2a" stroke-width="1.2" opacity="0.7"/>
+
+            <!-- ── CALVES (clickable) ── -->
+            <path id="svgCalfL" class="svg-muscle" data-muscle="Pantorrillas"
+              d="M38,250 Q34,272 36,305 Q44,312 54,308 Q58,280 60,250 Q49,253 38,250Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <path id="svgCalfR" class="svg-muscle" data-muscle="Pantorrillas"
+              d="M122,250 Q126,272 124,305 Q116,312 106,308 Q102,280 100,250 Q111,253 122,250Z"
+              fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <!-- Calf gastrocnemius split -->
+            <path d="M44,252 Q46,275 46,305" stroke="#111" stroke-width="0.8" fill="none" opacity="0.5"/>
+            <path d="M116,252 Q114,275 114,305" stroke="#111" stroke-width="0.8" fill="none" opacity="0.5"/>
+
+            <!-- SHINS -->
+            <path d="M36,307 Q34,330 36,360 Q42,363 50,360 Q52,335 54,308Z"
+              fill="#161616" stroke="#222" stroke-width="1"/>
+            <path d="M124,307 Q126,330 124,360 Q118,363 110,360 Q108,335 106,308Z"
+              fill="#161616" stroke="#222" stroke-width="1"/>
+
+            <!-- FEET -->
+            <ellipse cx="44" cy="375" rx="14" ry="8" fill="#141414" stroke="#222" stroke-width="1"/>
+            <ellipse cx="116" cy="375" rx="14" ry="8" fill="#141414" stroke="#222" stroke-width="1"/>
+
+            <!-- ── BODY PROPORTION overlay (driven by weight) ── -->
+            <ellipse id="bodyWeightOverlay" cx="80" cy="130" rx="30" ry="55"
+              fill="none" stroke="none" opacity="0.15"/>
+
+            <!-- ── MUSCLE STATUS INDICATORS ── -->
+            <g id="muscleIndicators"></g>
+          </svg>
+        </div>
+
+        <!-- Right panel: active muscle detail or summary -->
+        <div style="flex:1;min-width:0">
+          <div id="bodyQuickSummary"></div>
+          <div id="muscleDetailInline" style="display:none">
+            <div id="muscleDetailContent"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Legend -->
-    <div class="card" style="padding:10px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:10px;height:10px;border-radius:50%;background:#22C55E;display:inline-block;flex-shrink:0"></span>Progresando</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:10px;height:10px;border-radius:50%;background:#FBBF24;display:inline-block;flex-shrink:0"></span>Estable</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:10px;height:10px;border-radius:50%;background:#EF4444;display:inline-block;flex-shrink:0"></span>Estancado</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:10px;height:10px;border-radius:50%;background:#60A5FA;display:inline-block;flex-shrink:0"></span>Poco trabajado</div>
-      </div>
-    </div>
-
-    <!-- Muscle summary list -->
+    <!-- Muscle cards list -->
     <div id="muscleStatusList"></div>
 
-    <!-- Muscle detail popup -->
-    <div id="muscleDetailCard" style="display:none" class="card">
-      <div id="muscleDetailContent"></div>
-    </div>
-
   </div>
+
   <!-- TABS -->
   <div class="tabs" id="mainTabs">
     <button class="tab active" onclick="showPage('progreso',this)">
@@ -1627,69 +1662,63 @@ async function saveWizRutina(){
   openModal(`<div style="text-align:center"><div style="font-size:48px;margin-bottom:8px">✅</div><div class="modal-title" style="text-align:center">¡Rutina creada!</div><div style="font-size:13px;color:var(--muted2);margin-bottom:16px">Una rutina por cada día configurado.</div><button class="btn btn-or btn-full" onclick="closeModal()">LISTO</button></div>`);
 }
 
+
 // ══ MI CUERPO - SILUETA INTELIGENTE ══
 let bodyMode = 'current';
+let activeMuscle = null;
 
-// Muscle config: which SVG elements map to which muscle group
-const MUSCLE_SVG_MAP = {
-  'Pecho':         ['svgChest'],
-  'Espalda':       ['svgBack'],
-  'Hombros':       ['svgLeftShoulder','svgRightShoulder'],
-  'Bíceps':        ['svgLeftBicep','svgRightBicep'],
-  'Tríceps':       ['svgLeftBicep','svgRightBicep'], // share arm
-  'Cuádriceps':    ['svgLeftThigh','svgRightThigh'],
-  'Isquiotibiales':['svgLeftThigh','svgRightThigh'],
-  'Glúteos':       ['svgGlutes'],
-  'Pantorrillas':  ['svgLeftCalf','svgRightCalf'],
-  'Core':          ['svgCore'],
+const MUSCLE_CONFIG = {
+  'Pecho':          { svgIds:['svgChestL','svgChestR'], dotX:80, dotY:88,  measKey:'pecho',   color:'#FF6B00' },
+  'Espalda':        { svgIds:['svgBackL','svgBackR'],   dotX:80, dotY:105, measKey:null,       color:'#60A5FA' },
+  'Hombros':        { svgIds:['svgShoulderL','svgShoulderR'], dotX:80, dotY:77, measKey:null,  color:'#A855F7' },
+  'Bíceps':         { svgIds:['svgBicepL','svgBicepR'], dotX:80, dotY:100, measKey:'biceps',   color:'#FBBF24' },
+  'Tríceps':        { svgIds:['svgBicepL','svgBicepR'], dotX:80, dotY:110, measKey:null,       color:'#F97316' },
+  'Cuádriceps':     { svgIds:['svgQuadL','svgQuadR'],   dotX:80, dotY:218, measKey:'pierna',   color:'#22C55E' },
+  'Isquiotibiales': { svgIds:['svgHamL','svgHamR'],     dotX:80, dotY:225, measKey:null,       color:'#2DD4BF' },
+  'Glúteos':        { svgIds:['svgGlutes'],              dotX:80, dotY:178, measKey:null,       color:'#EC4899' },
+  'Pantorrillas':   { svgIds:['svgCalfL','svgCalfR'],   dotX:80, dotY:278, measKey:null,       color:'#EF4444' },
+  'Core':           { svgIds:['svgCore'],                dotX:80, dotY:135, measKey:'abd',      color:'#8B5CF6' },
 };
 
-// Dot positions on SVG (cx, cy) for indicators
-const MUSCLE_DOT_POS = {
-  'Pecho':         {x:100, y:160},
-  'Espalda':       {x:100, y:162},
-  'Hombros':       {x:100, y:133},
-  'Bíceps':        {x:54,  y:157},
-  'Tríceps':       {x:146, y:157},
-  'Cuádriceps':    {x:100, y:290},
-  'Isquiotibiales':{x:100, y:295},
-  'Glúteos':       {x:100, y:255},
-  'Pantorrillas':  {x:100, y:355},
-  'Core':          {x:100, y:210},
-};
-
-const STATUS_COLORS = {
-  progressing: '#22C55E',
-  stable:      '#FBBF24',
-  stagnant:    '#EF4444',
-  low:         '#60A5FA',
-  none:        '#333',
+const STATUS_COL = { progressing:'#22C55E', stable:'#FBBF24', stagnant:'#EF4444', low:'#60A5FA', none:'#444' };
+const STATUS_LBL = { progressing:'Progresando', stable:'Estable', stagnant:'Estancado', low:'Poco trabajado', none:'Sin datos' };
+const STATUS_EMO = { progressing:'🟢', stable:'🟡', stagnant:'🔴', low:'🔵', none:'⚪' };
+const STATUS_TIP = {
+  progressing:'Seguí así — tu fuerza mejora.',
+  stagnant:'Aumentá la carga o cambiá el estímulo.',
+  low:'Necesita más trabajo en tu rutina.',
+  stable:'Mantené la carga y buscá sobrecarga progresiva.',
+  none:'Sin datos suficientes aún.',
 };
 
 function setBodyMode(mode, btn) {
   bodyMode = mode;
-  document.querySelectorAll('[id^="bodyModeBtn"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#pg-cuerpo .pchip').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('compareControls').style.display = mode === 'compare' ? 'block' : 'none';
+  document.getElementById('cmpCtrls').style.display = mode === 'compare' ? 'block' : 'none';
   renderBodyPage();
 }
 window.setBodyMode = setBodyMode;
 
-function getMuscleData(muscleName, fromOffset, toOffset) {
-  // Returns {change, sessions, avgRm, lastRecord, measures}
-  const {from: f1, to: t1} = getMesRange(fromOffset);
-  const {from: f2, to: t2} = getMesRange(toOffset !== undefined ? toOffset : fromOffset + 1);
+function getMuscleStats(muscleName, fromOff, prevOff) {
+  const cfg = MUSCLE_CONFIG[muscleName];
+  const { from: f1, to: t1 } = getMesRange(fromOff);
+  const { from: f2, to: t2 } = getMesRange(prevOff);
 
-  const ssCur  = allSesiones.filter(s => inRange(s.fecha, f1, t1));
-  const ssPrev = allSesiones.filter(s => inRange(s.fecha, f2, t2));
+  function sessFor(sessions) {
+    return sessions.filter(s => (s.ejercicios||[]).some(e => {
+      const m = getMusculo(e.ejercicio);
+      return m === muscleName || e.ejercicio.toLowerCase().includes(muscleName.toLowerCase());
+    }));
+  }
 
-  // Get 1RM for a set of sessions for this muscle
-  function avgRmForSessions(sessions) {
+  function avgRm(sessions) {
     const rms = [];
     sessions.forEach(s => {
-      (s.ejercicios || []).forEach(e => {
-        if (getMusculo(e.ejercicio) !== muscleName && e.ejercicio !== muscleName) return;
-        [e.s1, e.s2, e.s3, ...(e.extras||[])].forEach(st => {
+      (s.ejercicios||[]).forEach(e => {
+        const m = getMusculo(e.ejercicio);
+        if (m !== muscleName && !e.ejercicio.toLowerCase().includes(muscleName.toLowerCase())) return;
+        [e.s1,e.s2,e.s3,...(e.extras||[])].forEach(st => {
           const p = parseSet(st);
           if (p && p.kg > 0 && p.reps > 0 && p.reps <= 50) rms.push(epley(p.kg, p.reps));
         });
@@ -1698,229 +1727,240 @@ function getMuscleData(muscleName, fromOffset, toOffset) {
     return rms.length ? rms.reduce((a,b)=>a+b,0)/rms.length : 0;
   }
 
-  const curRm  = avgRmForSessions(ssCur);
-  const prevRm = avgRmForSessions(ssPrev);
-  const change = prevRm > 0 ? Math.round((curRm - prevRm) / prevRm * 100) : null;
-  const sessions = ssCur.filter(s => (s.ejercicios||[]).some(e => getMusculo(e.ejercicio) === muscleName || e.ejercicio === muscleName)).length;
+  const ssCur  = sessFor(allSesiones.filter(s => inRange(s.fecha, f1, t1)));
+  const ssPrev = sessFor(allSesiones.filter(s => inRange(s.fecha, f2, t2)));
+  const ssAll  = sessFor(allSesiones);
 
-  // Last record
-  const recs = getRecords();
-  const muscleRecs = Object.entries(recs).filter(([k]) => getMusculo(k) === muscleName);
-  const lastRec = muscleRecs.sort((a,b) => b[1].rm - a[1].rm)[0];
+  const rmCur  = avgRm(allSesiones.filter(s => inRange(s.fecha, f1, t1)));
+  const rmPrev = avgRm(allSesiones.filter(s => inRange(s.fecha, f2, t2)));
+  const change = rmPrev > 0 ? Math.round((rmCur - rmPrev) / rmPrev * 100) : null;
 
-  // Measures (from allMedidas)
-  const measMap = { 'Pecho': 'pecho', 'Bíceps': 'biceps', 'Cuádriceps': 'pierna', 'Core': 'abd' };
-  const measKey = measMap[muscleName];
+  // Measures
   let measCur = null, measPrev = null, measDiff = null;
-  if (measKey) {
-    const mCur  = allMedidas.filter(m => m[measKey] && inRange(m.fecha, f1, t1));
-    const mPrev = allMedidas.filter(m => m[measKey] && inRange(m.fecha, f2, t2));
-    if (mCur.length)  measCur  = +mCur[mCur.length-1][measKey];
-    if (mPrev.length) measPrev = +mPrev[mPrev.length-1][measKey];
+  if (cfg.measKey) {
+    const mc = allMedidas.filter(m => m[cfg.measKey] && inRange(m.fecha, f1, t1));
+    const mp = allMedidas.filter(m => m[cfg.measKey] && inRange(m.fecha, f2, t2));
+    if (mc.length) measCur  = parseFloat(mc[mc.length-1][cfg.measKey]);
+    if (mp.length) measPrev = parseFloat(mp[mp.length-1][cfg.measKey]);
     if (measCur && measPrev) measDiff = Math.round((measCur - measPrev) * 10) / 10;
   }
 
+  // Last personal record
+  const recs = getRecords();
+  const muscleRecs = Object.entries(recs).filter(([k]) => {
+    const m = getMusculo(k);
+    return m === muscleName || k.toLowerCase().includes(muscleName.toLowerCase());
+  }).sort((a,b) => b[1].rm - a[1].rm);
+  const lastRec = muscleRecs[0] || null;
+
   // Status
   let status = 'none';
-  if (sessions === 0) status = 'low';
-  else if (change === null) status = 'stable';
-  else if (change > 2)  status = 'progressing';
-  else if (change < -2) status = 'stagnant';
+  if (ssCur.length === 0 && ssAll.length === 0) status = 'none';
+  else if (ssCur.length === 0) status = 'low';
+  else if (change === null) status = ssAll.length > 0 ? 'stable' : 'none';
+  else if (change > 3)  status = 'progressing';
+  else if (change < -3) status = 'stagnant';
   else status = 'stable';
 
-  const allSessions = allSesiones.filter(s => (s.ejercicios||[]).some(e => getMusculo(e.ejercicio) === muscleName));
-
-  return { change, sessions, avgRm: Math.round(curRm*10)/10, prevRm: Math.round(prevRm*10)/10, lastRec, measCur, measPrev, measDiff, measKey, status, totalSessions: allSessions.length };
-}
-
-function getStatusEmoji(status) {
-  return { progressing:'🟢', stable:'🟡', stagnant:'🔴', low:'🔵', none:'⚪' }[status] || '⚪';
-}
-function getStatusLabel(status) {
-  return { progressing:'Progresando', stable:'Estable', stagnant:'Estancado', low:'Poco trabajado', none:'Sin datos' }[status] || '';
+  return { change, rmCur: Math.round(rmCur*10)/10, rmPrev: Math.round(rmPrev*10)/10,
+    sessions: ssCur.length, totalSessions: ssAll.length,
+    measCur, measPrev, measDiff, measKey: cfg.measKey,
+    lastRec, status, color: cfg.color };
 }
 
 function renderBodyPage() {
-  const fromOff = bodyMode === 'compare' ? parseInt(document.getElementById('cmpFrom')?.value || '0') : 0;
-  const toOff   = bodyMode === 'compare' ? parseInt(document.getElementById('cmpTo')?.value || '1') : 1;
+  const fromOff = bodyMode === 'compare' ? parseInt(document.getElementById('cmpFrom')?.value||'0') : 0;
+  const prevOff = bodyMode === 'compare' ? parseInt(document.getElementById('cmpTo')?.value||'1')   : 1;
 
-  const muscles = Object.keys(MUSCLE_SVG_MAP);
-  const muscleData = {};
-  muscles.forEach(m => { muscleData[m] = getMuscleData(m, fromOff, toOff); });
+  const muscles = Object.keys(MUSCLE_CONFIG);
+  const allStats = {};
+  muscles.forEach(m => { allStats[m] = getMuscleStats(m, fromOff, prevOff); });
 
-  // Paint SVG muscles
+  // ── Paint SVG muscles ──
   muscles.forEach(m => {
-    const data  = muscleData[m];
-    const color = STATUS_COLORS[data.status] || STATUS_COLORS.none;
-    const svgIds = MUSCLE_SVG_MAP[m] || [];
-    svgIds.forEach(id => {
+    const s = allStats[m];
+    const col = STATUS_COL[s.status];
+    const cfg = MUSCLE_CONFIG[m];
+    cfg.svgIds.forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      const alpha = data.status === 'none' ? '22' : data.status === 'progressing' ? '40' : '30';
-      el.style.fill   = color + alpha;
-      el.style.stroke = color;
-      el.style.strokeWidth = data.status !== 'none' ? '2' : '1';
-      if (data.status === 'progressing') el.style.filter = `drop-shadow(0 0 4px ${color}80)`;
-      else el.style.filter = 'none';
+      const intensity = s.status === 'none' ? 0.12 : s.status === 'progressing' ? 0.55 : s.status === 'stagnant' ? 0.5 : 0.35;
+      el.setAttribute('fill', col + Math.round(intensity*255).toString(16).padStart(2,'0'));
+      el.setAttribute('stroke', col);
+      el.setAttribute('stroke-width', s.status !== 'none' ? '2' : '1.2');
+      el.style.cursor = 'pointer';
+      el.onclick = () => showMuscleDetail(m, fromOff, prevOff);
     });
   });
 
-  // Draw indicator dots
-  const indicators = document.getElementById('muscleIndicators');
-  if (indicators) {
-    indicators.innerHTML = muscles.map(m => {
-      const d = muscleData[m];
-      if (d.status === 'none') return '';
-      const pos = MUSCLE_DOT_POS[m];
-      if (!pos) return '';
-      const color = STATUS_COLORS[d.status];
-      const pct = d.change !== null ? Math.max(-100, Math.min(100, d.change)) : 0;
-      const showPct = d.change !== null && d.change !== 0;
-      return `<g onclick="showMuscleDetail('${m}')" style="cursor:pointer">
-        <circle cx="${pos.x}" cy="${pos.y}" r="6" fill="${color}" opacity="0.9"/>
-        <circle cx="${pos.x}" cy="${pos.y}" r="6" fill="none" stroke="${color}" stroke-width="2" opacity="0.4">
-          <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite"/>
+  // ── Weight-based body shape ──
+  const pesos = allMedidas.filter(m => m.peso).map(m => parseFloat(m.peso));
+  if (pesos.length) {
+    const peso = pesos[pesos.length-1];
+    const overlay = document.getElementById('bodyWeightOverlay');
+    if (overlay) {
+      const rx = Math.min(42, Math.max(26, 26 + (peso-60)*0.22));
+      overlay.setAttribute('rx', rx);
+      overlay.setAttribute('fill', peso > 90 ? '#FF6B0015' : peso < 70 ? '#22C55E15' : 'none');
+    }
+  }
+
+  // ── Animated status indicators ──
+  const indEl = document.getElementById('muscleIndicators');
+  if (indEl) {
+    const placed = {};
+    indEl.innerHTML = muscles.map(m => {
+      const s = allStats[m];
+      if (s.status === 'none') return '';
+      const cfg = MUSCLE_CONFIG[m];
+      const col = STATUS_COL[s.status];
+      // Avoid overlapping dots (Bíceps/Tríceps share arm)
+      const key = `${cfg.dotX}-${cfg.dotY}`;
+      const offset = placed[key] ? 14 : 0;
+      placed[key] = true;
+      const dx = cfg.dotX + offset;
+      const pctTxt = s.change !== null ? `${s.change>0?'+':''}${s.change}%` : '';
+      return `<g style="cursor:pointer" onclick="showMuscleDetail('${m}',${fromOff},${prevOff})">
+        <circle cx="${dx}" cy="${cfg.dotY}" r="5.5" fill="${col}" opacity="0.9"/>
+        <circle cx="${dx}" cy="${cfg.dotY}" r="5.5" fill="none" stroke="${col}" stroke-width="2" opacity="0.35">
+          <animate attributeName="r" values="5.5;10;5.5" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.35;0;0.35" dur="2.5s" repeatCount="indefinite"/>
         </circle>
-        ${showPct ? `<text x="${pos.x + 9}" y="${pos.y + 4}" fill="${color}" font-size="8" font-weight="bold" font-family="Barlow Condensed,sans-serif">${d.change > 0 ? '+' : ''}${d.change}%</text>` : ''}
+        ${pctTxt?`<text x="${dx+8}" y="${cfg.dotY+4}" fill="${col}" font-size="8" font-weight="700" font-family="Barlow Condensed,sans-serif">${pctTxt}</text>`:''}
       </g>`;
     }).join('');
   }
 
-  // Muscle status list
-  const listEl = document.getElementById('muscleStatusList');
-  const musclesSorted = muscles
-    .map(m => ({name: m, ...muscleData[m]}))
-    .filter(m => m.totalSessions > 0)
-    .sort((a,b) => {
-      const order = {progressing:0, stagnant:1, stable:2, low:3, none:4};
-      return (order[a.status]||4) - (order[b.status]||4);
-    });
+  // ── Quick summary panel (right of SVG) ──
+  const sorted = muscles.map(m=>({m,...allStats[m]})).filter(x=>x.totalSessions>0)
+    .sort((a,b)=>{const o={progressing:0,stagnant:1,stable:2,low:3,none:4};return(o[a.status]||4)-(o[b.status]||4);});
 
-  listEl.innerHTML = musclesSorted.map(m => {
-    const color   = STATUS_COLORS[m.status];
-    const arrow   = m.change > 0 ? '↑' : m.change < 0 ? '↓' : '→';
-    const chgTxt  = m.change !== null ? `${arrow}${Math.abs(m.change)}%` : '—';
-    const chgCol  = m.change > 0 ? 'var(--green)' : m.change < 0 ? 'var(--red)' : 'var(--muted2)';
-    const barPct  = m.totalSessions ? Math.min(100, Math.round(m.totalSessions / Math.max(...musclesSorted.map(x=>x.totalSessions)) * 100)) : 0;
+  document.getElementById('bodyQuickSummary').innerHTML = sorted.slice(0,8).map(x => {
+    const col = STATUS_COL[x.status];
+    const arrow = x.change > 0 ? '↑' : x.change < 0 ? '↓' : '—';
+    const chgCol = x.change > 0 ? '#22C55E' : x.change < 0 ? '#EF4444' : '#666';
+    return `<div onclick="showMuscleDetail('${x.m}',${fromOff},${prevOff})"
+      style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer">
+      <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></div>
+      <div style="flex:1;font-size:12px;font-weight:600">${x.m}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:${chgCol}">
+        ${x.change!==null?arrow+Math.abs(x.change)+'%':'—'}
+      </div>
+    </div>`;
+  }).join('') + `<div style="font-size:10px;color:var(--muted2);margin-top:8px;text-align:center">Tocá un músculo o fila</div>`;
 
-    return `<div class="muscle-status-card" onclick="showMuscleDetail('${m.name}')">
+  // ── Muscle cards below ──
+  document.getElementById('muscleStatusList').innerHTML = sorted.map(x => {
+    const col = STATUS_COL[x.status];
+    const arrow = x.change > 0 ? '↑' : x.change < 0 ? '↓' : '→';
+    const chgCol = x.change>0?'var(--green)':x.change<0?'var(--red)':'var(--muted2)';
+    const barPct = sorted.length>0 ? Math.min(100,Math.round(x.totalSessions/Math.max(...sorted.map(s=>s.totalSessions))*100)) : 0;
+    return `<div class="muscle-status-card" onclick="showMuscleDetail('${x.m}',${fromOff},${prevOff})">
       <div class="msc-header">
-        <div class="msc-dot" style="background:${color}"></div>
-        <div class="msc-name">${m.name}</div>
-        <div style="font-size:10px;margin-right:6px">${getStatusEmoji(m.status)} ${getStatusLabel(m.status)}</div>
-        <div class="msc-change" style="color:${chgCol}">${chgTxt}</div>
+        <div class="msc-dot" style="background:${col}"></div>
+        <div class="msc-name">${x.m}</div>
+        <span style="font-size:10px;color:var(--muted2);margin-right:6px">${STATUS_EMO[x.status]} ${STATUS_LBL[x.status]}</span>
+        <div class="msc-change" style="color:${chgCol}">${x.change!==null?arrow+Math.abs(x.change)+'%':'—'}</div>
       </div>
       <div class="msc-meta">
-        ${m.avgRm ? `<span class="msc-meta-item">1RM: <strong style="color:var(--text)">${m.avgRm} kg</strong></span>` : ''}
-        ${m.sessions ? `<span class="msc-meta-item">Este mes: <strong style="color:var(--text)">${m.sessions} ses.</strong></span>` : ''}
-        ${m.totalSessions ? `<span class="msc-meta-item">Total: <strong style="color:var(--text)">${m.totalSessions} ses.</strong></span>` : ''}
-        ${m.measCur ? `<span class="msc-meta-item">${m.measKey}: <strong style="color:var(--text)">${m.measCur} cm</strong></span>` : ''}
+        ${x.rmCur?`<span class="msc-meta-item">1RM: <strong style="color:var(--text)">${x.rmCur} kg</strong></span>`:''}
+        ${x.sessions?`<span class="msc-meta-item">Este mes: <strong style="color:var(--text)">${x.sessions}</strong></span>`:''}
+        ${x.totalSessions?`<span class="msc-meta-item">Total: <strong style="color:var(--text)">${x.totalSessions}</strong></span>`:''}
+        ${x.measCur?`<span class="msc-meta-item">${x.measKey}: <strong style="color:var(--text)">${x.measCur} cm${x.measDiff?` (${x.measDiff>0?'+':''}${x.measDiff})`:''}
+        </strong></span>`:''}
       </div>
-      <div class="msc-bar-wrap"><div class="msc-bar" style="width:${barPct}%;background:${color}"></div></div>
+      <div class="msc-bar-wrap"><div class="msc-bar" style="width:${barPct}%;background:${col}"></div></div>
     </div>`;
   }).join('') || '<div class="empty">Registrá sesiones para ver el estado muscular.</div>';
 
-  // Hide detail on re-render
-  document.getElementById('muscleDetailCard').style.display = 'none';
+  // Hide inline detail if open
+  document.getElementById('muscleDetailInline').style.display = 'none';
+  document.getElementById('bodyQuickSummary').style.display = 'block';
 }
 
-function showMuscleDetail(muscleName) {
-  const fromOff = bodyMode === 'compare' ? parseInt(document.getElementById('cmpFrom')?.value || '0') : 0;
-  const toOff   = bodyMode === 'compare' ? parseInt(document.getElementById('cmpTo')?.value || '1') : 1;
-  const d = getMuscleData(muscleName, fromOff, toOff);
-  const color = STATUS_COLORS[d.status];
+function showMuscleDetail(muscleName, fromOff, prevOff) {
+  fromOff = fromOff ?? (bodyMode==='compare'?parseInt(document.getElementById('cmpFrom')?.value||'0'):0);
+  prevOff = prevOff ?? (bodyMode==='compare'?parseInt(document.getElementById('cmpTo')?.value||'1'):1);
+
+  activeMuscle = muscleName;
+  const d = getMuscleStats(muscleName, fromOff, prevOff);
+  const col = STATUS_COL[d.status];
   const mesFrom = getMesName(fromOff);
-  const mesTo   = getMesName(toOff);
+  const mesTo   = getMesName(prevOff);
 
-  const card = document.getElementById('muscleDetailCard');
-  const content = document.getElementById('muscleDetailContent');
-
-  // Compare bars if in compare mode
-  let compareBars = '';
-  if (bodyMode === 'compare' && d.avgRm > 0 && d.prevRm > 0) {
-    const maxRm = Math.max(d.avgRm, d.prevRm);
-    compareBars = `
-      <div style="margin-bottom:12px">
-        <div style="font-size:11px;color:var(--muted2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.7px;font-weight:700">Comparación de 1RM</div>
-        <div class="compare-bar">
-          <div class="compare-bar-lbl">${mesFrom.split(' ')[0]}</div>
-          <div class="compare-bar-track"><div class="compare-bar-fill" style="width:${Math.round(d.avgRm/maxRm*100)}%;background:var(--or)"></div></div>
-          <div class="compare-bar-val" style="color:var(--or)">${d.avgRm} kg</div>
-        </div>
-        <div class="compare-bar">
-          <div class="compare-bar-lbl">${mesTo.split(' ')[0]}</div>
-          <div class="compare-bar-track"><div class="compare-bar-fill" style="width:${Math.round(d.prevRm/maxRm*100)}%;background:var(--blue)"></div></div>
-          <div class="compare-bar-val" style="color:var(--blue)">${d.prevRm} kg</div>
-        </div>
-      </div>`;
+  // Compare bars
+  let cmpBars = '';
+  if (d.rmCur > 0 || d.rmPrev > 0) {
+    const maxRm = Math.max(d.rmCur, d.rmPrev, 1);
+    cmpBars = `<div style="margin-bottom:10px">
+      <div style="font-size:10px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">Comparación 1RM estimado</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <div style="font-size:10px;color:var(--muted2);width:52px;text-align:right;flex-shrink:0">${mesFrom.split(' ')[0]}</div>
+        <div style="flex:1;height:8px;background:var(--bg5);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.round(d.rmCur/maxRm*100)}%;background:var(--or);border-radius:4px"></div></div>
+        <div style="font-size:11px;font-weight:700;width:44px;font-family:'Barlow Condensed',sans-serif;color:var(--or)">${d.rmCur} kg</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-size:10px;color:var(--muted2);width:52px;text-align:right;flex-shrink:0">${mesTo.split(' ')[0]}</div>
+        <div style="flex:1;height:8px;background:var(--bg5);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.round(d.rmPrev/maxRm*100)}%;background:var(--blue);border-radius:4px"></div></div>
+        <div style="font-size:11px;font-weight:700;width:44px;font-family:'Barlow Condensed',sans-serif;color:var(--blue)">${d.rmPrev} kg</div>
+      </div>
+    </div>`;
   }
 
-  // Measure comparison
-  let measCompare = '';
-  if (d.measCur && d.measKey) {
-    const isGood = (d.measKey === 'biceps' || d.measKey === 'pierna') ? d.measDiff > 0 : d.measDiff < 0;
-    measCompare = `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--bg4);border-radius:8px;margin-bottom:8px">
+  // Measure row
+  let measRow = '';
+  if (d.measCur) {
+    const isGood = (d.measKey==='biceps'||d.measKey==='pierna') ? d.measDiff > 0 : d.measDiff < 0;
+    measRow = `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 9px;background:var(--bg4);border-radius:8px;margin-bottom:8px">
       <span style="font-size:12px;color:var(--muted2)">Medida (${d.measKey})</span>
       <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${d.measCur} cm
-        ${d.measDiff !== null && d.measDiff !== 0 ? `<span style="font-size:12px;color:${isGood?'var(--green)':'var(--red)'}">${d.measDiff>0?'+':''}${d.measDiff}</span>` : ''}</span>
-    </div>`;
+        ${d.measDiff&&d.measDiff!==0?`<span style="font-size:11px;color:${isGood?'var(--green)':'var(--red)'}">${d.measDiff>0?'+':''}${d.measDiff}</span>`:''}
+      </span></div>`;
   }
 
-  content.innerHTML = `
-    <div class="detail-card-title">
-      <span>${getStatusEmoji(d.status)} ${muscleName}</span>
-      <button onclick="document.getElementById('muscleDetailCard').style.display='none'" style="background:none;border:none;cursor:pointer;color:var(--muted2);font-size:20px;line-height:1">×</button>
+  const html = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:${col}">${STATUS_EMO[d.status]} ${muscleName}</div>
+        <div style="font-size:11px;color:var(--muted2)">${STATUS_LBL[d.status]}</div>
+      </div>
+      <button onclick="document.getElementById('muscleDetailInline').style.display='none';document.getElementById('bodyQuickSummary').style.display='block'"
+        style="background:var(--bg4);border:none;border-radius:7px;width:28px;height:28px;cursor:pointer;color:var(--muted2);font-size:18px;display:flex;align-items:center;justify-content:center">×</button>
     </div>
-    <div class="detail-stat-grid">
-      <div class="detail-stat">
-        <div class="detail-stat-n" style="color:${d.change>0?'var(--green)':d.change<0?'var(--red)':'var(--muted2)'}">
-          ${d.change !== null ? (d.change>0?'+':'')+d.change+'%' : '—'}
-        </div>
-        <div class="detail-stat-l">Variación fuerza</div>
-      </div>
-      <div class="detail-stat">
-        <div class="detail-stat-n">${d.avgRm || '—'}</div>
-        <div class="detail-stat-l">1RM est. actual</div>
-      </div>
-      <div class="detail-stat">
-        <div class="detail-stat-n">${d.sessions}</div>
-        <div class="detail-stat-l">Sesiones este mes</div>
-      </div>
-      <div class="detail-stat">
-        <div class="detail-stat-n">${d.totalSessions}</div>
-        <div class="detail-stat-l">Sesiones totales</div>
-      </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px">
+      <div class="detail-stat"><div class="detail-stat-n" style="color:${d.change>0?'var(--green)':d.change<0?'var(--red)':'var(--muted2)'}">
+        ${d.change!==null?(d.change>0?'+':'')+d.change+'%':'—'}</div><div class="detail-stat-l">Variación fuerza</div></div>
+      <div class="detail-stat"><div class="detail-stat-n">${d.rmCur||'—'}</div><div class="detail-stat-l">1RM est. (kg)</div></div>
+      <div class="detail-stat"><div class="detail-stat-n">${d.sessions}</div><div class="detail-stat-l">Sesiones mes</div></div>
+      <div class="detail-stat"><div class="detail-stat-n">${d.totalSessions}</div><div class="detail-stat-l">Sesiones total</div></div>
     </div>
-    ${compareBars}
-    ${measCompare}
-    ${d.lastRec ? `
-    <div style="background:var(--bg4);border-radius:8px;padding:10px;margin-bottom:8px">
-      <div style="font-size:10px;color:var(--muted2);font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:4px">🏆 Récord personal</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${d.lastRec[0]}</div>
+    ${cmpBars}
+    ${measRow}
+    ${d.lastRec?`<div style="background:var(--bg4);border-radius:8px;padding:9px;margin-bottom:8px">
+      <div style="font-size:10px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">🏆 Récord personal</div>
+      <div style="font-size:13px;font-weight:600">${d.lastRec[0]}</div>
       <div style="font-size:12px;color:var(--or);font-weight:600">${d.lastRec[1].rm} kg 1RM · ${d.lastRec[1].kg}kg × ${d.lastRec[1].reps} reps · ${d.lastRec[1].fecha}</div>
-    </div>` : ''}
-    <div style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(${color==='#22C55E'?'34,197,94':color==='#EF4444'?'239,68,68':color==='#FBBF24'?'251,191,36':'96,165,250'},.08);border-radius:8px">
-      <span style="font-size:18px">${getStatusEmoji(d.status)}</span>
-      <span style="font-size:12px;color:var(--text)"><strong>${getStatusLabel(d.status)}</strong> — ${
-        d.status==='progressing'?'Seguí así, estás en racha positiva.':
-        d.status==='stagnant'?'Revisá cargas. Intentá aumentar peso o reps.':
-        d.status==='low'?'Este músculo necesita más atención en tu rutina.':
-        d.status==='stable'?'Progreso estable. Buscá sobrecarga progresiva.':
-        'Sin suficientes datos aún.'
-      }</span>
+    </div>`:''}
+    <div style="display:flex;align-items:flex-start;gap:7px;padding:8px 10px;background:${col}18;border-radius:8px;border-left:2px solid ${col}">
+      <span style="font-size:16px">${STATUS_EMO[d.status]}</span>
+      <span style="font-size:12px;line-height:1.4">${STATUS_TIP[d.status]}</span>
     </div>`;
 
-  card.style.display = 'block';
-  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('muscleDetailContent').innerHTML = html;
+  document.getElementById('muscleDetailInline').style.display = 'block';
+  document.getElementById('bodyQuickSummary').style.display = 'none';
+
+  // Scroll card into view
+  document.getElementById('muscleDetailInline').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 window.showMuscleDetail = showMuscleDetail;
 
-// Hook into showPage
-const _origShowPage = showPage;
+// Hook into showPage for cuerpo tab
+const _origShowPage2 = showPage;
 function showPage(name, btn) {
-  _origShowPage(name, btn);
-  if (name === 'cuerpo') renderBodyPage();
+  _origShowPage2(name, btn);
+  if (name === 'cuerpo') setTimeout(renderBodyPage, 50);
 }
 window.showPage = showPage;
 
