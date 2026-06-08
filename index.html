@@ -1022,7 +1022,7 @@ function showPage(name,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('pg-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
-  const r={progreso:renderProgreso,entrenar:renderEntrenar,evolucion:renderEvolucion,medidas:renderMedidas,panel:renderPanel};
+  const r={progreso:renderProgreso,entrenar:renderEntrenar,evolucion:renderEvolucion,medidas:renderMedidas,panel:renderPanel,cuerpo:renderBodyPage};
   if(r[name])r[name]();
 }
 window.showPage=showPage;
@@ -1956,13 +1956,7 @@ function showMuscleDetail(muscleName, fromOff, prevOff) {
 }
 window.showMuscleDetail = showMuscleDetail;
 
-// Hook into showPage for cuerpo tab
-const _origShowPage2 = showPage;
-function showPage(name, btn) {
-  _origShowPage2(name, btn);
-  if (name === 'cuerpo') setTimeout(renderBodyPage, 50);
-}
-window.showPage = showPage;
+// Mi Cuerpo tab uses showPage normally - renderBodyPage called from showPage nav map
 
 </script>
 </body>
